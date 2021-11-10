@@ -1,22 +1,21 @@
-const config = require('../config/connection')
-const Sequelize = require('sequelize');
+const db = require('../config/connection')
 
-const model = {
-  'id': {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    defaultValue: Sequelize.literal("nextval('reflection_id_seq')")
-  },
-  'success': Sequelize.STRING,
-  'low_point': Sequelize.STRING,
-  'take_away': Sequelize.STRING,
-  'owner_id': Sequelize.INTEGER,
-  'created_at': Sequelize.DATE,
-  'updated_at': Sequelize.DATE,
-};
+exports.findOne = async (field, value) =>
+  new Promise(async (resolve, reject) => {
+    await db.query(`SELECT * FROM "users" WHERE ${field} = '${value}'`)
+      .then(res => {
+        resolve(res.rows[0])
+      }).catch((err) => {
+        reject(err)
+      })
+  })
 
-module.exports = config.define('reflection', model, {
-  //prevent sequelize transform table name into plural
-  freezeTableName: true,
-  timestamps: false
-})
+exports.insertData = async (value) =>
+  new Promise(async (resolve, reject) => {
+    await db.query(`INSERT INTO "users" (nama, email, password, created_at, updated_at) VALUES ('${value.nama}', '${value.email}', '${value.password}', '${value.created_at}', '${value.updated_at}')`)
+      .then(res => {
+        resolve(res)
+      }).catch((err) => {
+        reject(err)
+      })
+  })
