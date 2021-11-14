@@ -35,7 +35,7 @@ module.exports = {
         result: data
       }
     },
-     commonSuccessLogin: (data, token) => {
+    commonSuccessLogin: (data, token) => {
       return {
         status: true,
         message: "Berhasil memuat permintaan",
@@ -44,4 +44,22 @@ module.exports = {
         token: token
       }
     },
+    commonNotFoundOnly: {
+      status: false,
+      code: 404
+    },
+    commonNotFoundMessage: (message) => {
+      return {
+        status: false,
+        message: message,
+        code: 404,
+      }
+    },
+    commonDataError: (message) => {
+      return {
+        status: false,
+        message: message,
+        code: 400
+      }
+    }
   };
